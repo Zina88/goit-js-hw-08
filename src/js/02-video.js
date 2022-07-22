@@ -1,10 +1,6 @@
-const iframe = document.querySelector('iframe');
+const iframe = document.querySelector('#vimeo-player');
 const player = new Vimeo.Player(iframe);
 const throttle = require('lodash.throttle');
-
-// player.on('timeupdate', function (data) {
-//   console.log(data.seconds);
-// });
 
 player.on('timeupdate', throttle(onPlay, 1000));
 
