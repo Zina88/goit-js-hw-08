@@ -1,7 +1,6 @@
 import throttle from 'lodash.throttle';
 
 const form = document.querySelector('.feedback-form');
-
 form.addEventListener('submit', onSubmitForm);
 form.addEventListener('input', throttle(onFormInput, 500));
 
@@ -16,11 +15,10 @@ function onSubmitForm(e) {
   e.preventDefault(); //отменяем перезагрузку стр
   e.currentTarget.reset(); //очищаем форму
   localStorage.removeItem(LOCALSTORAGE_KEY); //очищаем форму, если пол-ль нажал submit
-  console.log(JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY)));
 }
 
 function onFormInput(e) {
-  formMessage[e.target.name] = e.target.value; //записываем значение value в message
+  formMessage[e.target.name] = e.target.value; //записываем значение value в formMessage
   //   console.log(message);
   localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(formMessage)); //записываем в лок хранилище message под ключом feedback-msg
 }
