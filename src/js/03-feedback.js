@@ -12,6 +12,7 @@ const formMessage = {};
 updateForm();
 
 function onSubmitForm(e) {
+  console.log(JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY)));
   e.preventDefault();
   e.currentTarget.reset();
   localStorage.removeItem(LOCALSTORAGE_KEY);
@@ -27,9 +28,10 @@ function updateForm() {
   const savedMessage = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY));
 
   if (savedMessage) {
+    console.log(savedMessage.email);
     email.value = savedMessage.email;
-    // console.log(email.value);
+
+    console.log(savedMessage.message);
     message.value = savedMessage.message;
-    // console.log(message.value);
   }
 }
