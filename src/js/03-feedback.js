@@ -4,34 +4,30 @@ const form = document.querySelector('.feedback-form');
 form.addEventListener('submit', onSubmitForm);
 form.addEventListener('input', throttle(onFormInput, 500));
 
-const email = document.querySelector('.feedback-form input');
-const message = document.querySelector('.feedback-form textarea');
 const LOCALSTORAGE_KEY = 'feedback-form-state';
-const formMessage = {};
 
-updateForm();
+intiForm();
 
 function onSubmitForm(e) {
-  console.log(JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY)));
   e.preventDefault();
-  e.currentTarget.reset();
-  localStorage.removeItem(LOCALSTORAGE_KEY);
+  const formData = new FormData(form);
+  formData.forEach((value, name) => console.log(name, value));
 }
 
 function onFormInput(e) {
-  formMessage[e.target.name] = e.target.value;
-  // console.log(formMessage[e.target.name]);
-  localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(formMessage));
+  let persistedFilters = localStorage.getItem(LOCALSTORAGE_KEY);
+  persistedFilters = persistedFilters ? JSON.parse(persistedFilters) : {};
+  persistedFilters[e.target.name] = e.target.value;
+  localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(persistedFilters));
 }
 
-function updateForm() {
-  const savedMessage = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY));
+function intiForm() {
+  let persistedFilters = localStorage.getItem(LOCALSTORAGE_KEY);
 
-  if (savedMessage) {
-    console.log(savedMessage.email);
-    email.value = savedMessage.email;
-
-    console.log(savedMessage.message);
-    message.value = savedMessage.message;
+  if (persistedFilters) {
+    persistedFilters = JSON.parse(persistedFilters);
+    Object.entries(persistedFilters).forEach(([name, value]) => {
+      form.elements[name].value = value;
+    });
   }
 }
